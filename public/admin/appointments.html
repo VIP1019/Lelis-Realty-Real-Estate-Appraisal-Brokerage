@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments | Lelis Realty Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin">
+    <aside class="sidebar">
+      <div class="sidebar-header"><div class="sidebar-brand">Lelis Realty</div><div class="sidebar-tagline">Admin Portal</div></div>
+      <div class="sidebar-user"><div class="sidebar-user-avatar">A</div><div class="sidebar-user-info"><strong>Admin</strong><small>Administrator</small></div></div>
+      <div class="sidebar-section"><div class="sidebar-label">Main</div><ul class="sidebar-nav"><li><a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a></li><li><a href="properties.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Properties</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-label">Management</div><ul class="sidebar-nav"><li><a href="sellers.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Sellers</a></li><li><a href="buyers.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Buyers</a></li><li><a href="agents.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>Agents</a></li><li><a href="appointments.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Appointments</a></li><li><a href="inquiries.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Inquiries</a></li></ul></div>
+      <div class="sidebar-section"><div class="sidebar-label">Analytics</div><ul class="sidebar-nav"><li><a href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Reports</a></li></ul></div>
+      <div class="sidebar-footer"><a href="../index.html">View Website</a><button class="btn-signout" onclick="window.location.href='login.html'">Sign Out</button></div>
+    </aside>
+
+    <main class="main">
+      <div class="page-title"><div><h1>Appointment Management</h1><p>Approve bookings, manage schedules, and track completions</p></div>
+        <button class="btn btn-primary" onclick="document.getElementById('addApptModal').classList.add('active')">+ New Appointment</button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card-sm"><div class="val" id="statPending">0</div><div class="lbl">Pending</div></div>
+        <div class="stat-card-sm"><div class="val" id="statApproved" style="color:#2563EB">0</div><div class="lbl">Approved</div></div>
+        <div class="stat-card-sm"><div class="val" id="statCompleted" style="color:#16A34A">0</div><div class="lbl">Completed</div></div>
+        <div class="stat-card-sm"><div class="val" id="statCancelled" style="color:#DC2626">0</div><div class="lbl">Cancelled</div></div>
+      </div>
+
+      <!-- Calendar -->
+      <div class="calendar" style="margin-bottom:1.5rem">
+        <div class="calendar-header">
+          <button onclick="changeMonth(-1)">&larr; Prev</button>
+          <h3 id="calendarTitle"></h3>
+          <button onclick="changeMonth(1)">Next &rarr;</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+
+      <!-- Appointments Table -->
+      <div class="panel">
+        <h3 style="margin-bottom:1rem;font-size:1rem">All Appointments</h3>
+        <div style="overflow-x:auto">
+          <table class="table">
+            <thead><tr><th>Buyer</th><th>Property</th><th>Date & Time</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="apptTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Add Appointment Modal -->
+      <div id="addApptModal" class="modal">
+        <div class="modal-content" style="max-width:500px">
+          <button class="modal-close" onclick="document.getElementById('addApptModal').classList.remove('active')">&times;</button>
+          <h2 style="font-family:'Playfair Display',serif;margin-bottom:1.5rem">New Appointment</h2>
+          <form id="addApptForm">
+            <div class="form-group"><label class="form-label">Buyer Name</label><input type="text" id="apptBuyer" class="form-input" required></div>
+            <div class="form-group"><label class="form-label">Phone</label><input type="tel" id="apptPhone" class="form-input" required></div>
+            <div class="form-group"><label class="form-label">Property</label><input type="text" id="apptProperty" class="form-input" required></div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Date</label><input type="date" id="apptDate" class="form-input" required></div>
+              <div class="form-group"><label class="form-label">Time</label><input type="time" id="apptTime" class="form-input" required></div>
+            </div>
+            <div class="form-group"><label class="form-label">Notes</label><textarea id="apptNotes" class="form-textarea" placeholder="Optional notes..."></textarea></div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Create Appointment</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let currentDate = new Date();
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    function getAppointments() {
+      if (!localStorage.getItem('lelis_appointments')) {
+        const defaults = [
+          { id:1, buyer:'Juan Dela Cruz', phone:'0917-123-4567', property:'Modern Villa — Batangas', date:'2025-05-05', time:'14:00', status:'Pending', notes:'' },
+          { id:2, buyer:'Maria Garcia', phone:'0929-987-6543', property:'Lot Only — Lipa City', date:'2025-05-03', time:'10:00', status:'Approved', notes:'Interested in lot near highway' },
+          { id:3, buyer:'Pedro Santos', phone:'0917-555-1234', property:'Elegant Townhouse', date:'2025-05-08', time:'09:00', status:'Pending', notes:'' },
+          { id:4, buyer:'Ana Reyes', phone:'0929-222-3333', property:'Beachfront Property', date:'2025-05-12', time:'15:00', status:'Approved', notes:'VIP client' },
+          { id:5, buyer:'Luis Mendoza', phone:'0917-444-5555', property:'Prime Commercial Lot', date:'2025-04-28', time:'11:00', status:'Completed', notes:'Deal closed' },
+          { id:6, buyer:'Carmen Villa', phone:'0929-666-7777', property:'Farmland', date:'2025-04-20', time:'09:30', status:'Cancelled', notes:'Client postponed' },
+        ];
+        localStorage.setItem('lelis_appointments', JSON.stringify(defaults));
+      }
+      return JSON.parse(localStorage.getItem('lelis_appointments'));
+    }
+    function saveAppointments(a) { localStorage.setItem('lelis_appointments', JSON.stringify(a)); }
+
+    function updateStats() {
+      const appts = getAppointments();
+      document.getElementById('statPending').textContent = appts.filter(a=>a.status==='Pending').length;
+      document.getElementById('statApproved').textContent = appts.filter(a=>a.status==='Approved').length;
+      document.getElementById('statCompleted').textContent = appts.filter(a=>a.status==='Completed').length;
+      document.getElementById('statCancelled').textContent = appts.filter(a=>a.status==='Cancelled').length;
+    }
+
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      document.getElementById('calendarTitle').textContent = `${MONTHS[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const today = new Date();
+      const appts = getAppointments();
+
+      let html = '';
+      ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+        html += `<div class="calendar-day-name">${d}</div>`;
+      });
+
+      // Previous month days
+      const prevDays = new Date(year, month, 0).getDate();
+      for (let i = firstDay - 1; i >= 0; i--) {
+        html += `<div class="calendar-day other-month"><div class="day-num">${prevDays - i}</div></div>`;
+      }
+
+      // Current month days
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const isToday = today.getFullYear()===year && today.getMonth()===month && today.getDate()===d;
+        const dayAppts = appts.filter(a => a.date === dateStr);
+
+        html += `<div class="calendar-day${isToday?' today':''}">`;
+        html += `<div class="day-num">${d}</div>`;
+        dayAppts.forEach(a => {
+          const cls = a.status==='Pending'?'pending':a.status==='Completed'?'completed':'';
+          html += `<div class="calendar-event ${cls}" title="${a.buyer} - ${a.property}">${a.time} ${a.buyer.split(' ')[0]}</div>`;
+        });
+        html += '</div>';
+      }
+
+      // Fill remaining cells
+      const totalCells = firstDay + daysInMonth;
+      const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+      for (let i = 1; i <= remaining; i++) {
+        html += `<div class="calendar-day other-month"><div class="day-num">${i}</div></div>`;
+      }
+
+      document.getElementById('calendarGrid').innerHTML = html;
+    }
+
+    function changeMonth(dir) {
+      currentDate.setMonth(currentDate.getMonth() + dir);
+      renderCalendar();
+    }
+
+    function renderTable() {
+      const appts = getAppointments().sort((a,b) => new Date(b.date) - new Date(a.date));
+      const tbody = document.getElementById('apptTable');
+      tbody.innerHTML = appts.map(a => {
+        const dateObj = new Date(a.date + 'T' + a.time);
+        const dateStr = dateObj.toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'});
+        const timeStr = dateObj.toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'});
+        const badgeClass = a.status==='Pending'?'pending':a.status==='Approved'?'available':a.status==='Completed'?'available':'sold';
+        let actions = '';
+        if (a.status === 'Pending') actions = `<button class="btn btn-small btn-primary" onclick="updateStatus(${a.id},'Approved')">Approve</button> <button class="btn btn-small btn-ghost" style="color:#DC2626" onclick="updateStatus(${a.id},'Cancelled')">Cancel</button>`;
+        else if (a.status === 'Approved') actions = `<button class="btn btn-small btn-primary" onclick="updateStatus(${a.id},'Completed')">Complete</button> <button class="btn btn-small btn-ghost" style="color:#DC2626" onclick="updateStatus(${a.id},'Cancelled')">Cancel</button>`;
+        else actions = `<span style="color:#94A3B8;font-size:0.82rem">${a.status}</span>`;
+        return `<tr>
+          <td><strong style="color:#0F172A">${a.buyer}</strong><br><small style="color:#94A3B8">${a.phone}</small></td>
+          <td style="color:#475569">${a.property}</td>
+          <td>${dateStr} — ${timeStr}</td>
+          <td><span class="badge-status badge-${badgeClass}">${a.status}</span></td>
+          <td>${actions}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function updateStatus(id, status) {
+      const appts = getAppointments();
+      const appt = appts.find(a => a.id === id);
+      if (appt) appt.status = status;
+      saveAppointments(appts);
+      renderAll();
+    }
+
+    document.getElementById('addApptForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const appts = getAppointments();
+      const newId = appts.length > 0 ? Math.max(...appts.map(a=>a.id)) + 1 : 1;
+      appts.push({
+        id: newId,
+        buyer: document.getElementById('apptBuyer').value,
+        phone: document.getElementById('apptPhone').value,
+        property: document.getElementById('apptProperty').value,
+        date: document.getElementById('apptDate').value,
+        time: document.getElementById('apptTime').value,
+        status: 'Pending',
+        notes: document.getElementById('apptNotes').value
+      });
+      saveAppointments(appts);
+      document.getElementById('addApptModal').classList.remove('active');
+      this.reset();
+      renderAll();
+    });
+
+    function renderAll() { updateStats(); renderCalendar(); renderTable(); }
+    document.addEventListener('DOMContentLoaded', renderAll);
+  </script>
+</body>
+</html>

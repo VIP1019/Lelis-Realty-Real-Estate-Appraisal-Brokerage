@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Properties | Lelis Realty Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">Lelis Realty</div>
+        <div class="sidebar-tagline">Admin Portal</div>
+      </div>
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar">A</div>
+        <div class="sidebar-user-info"><strong>Admin</strong><small>Administrator</small></div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Main</div>
+        <ul class="sidebar-nav">
+          <li><a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a></li>
+          <li><a href="properties.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Properties</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Management</div>
+        <ul class="sidebar-nav">
+          <li><a href="sellers.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Sellers</a></li>
+          <li><a href="buyers.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Buyers</a></li>
+          <li><a href="agents.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>Agents</a></li>
+          <li><a href="appointments.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Appointments</a></li>
+          <li><a href="inquiries.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Inquiries</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Analytics</div>
+        <ul class="sidebar-nav">
+          <li><a href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Reports</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-footer">
+        <a href="../index.html">View Website</a>
+        <button class="btn-signout" onclick="window.location.href='login.html'">Sign Out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="page-title">
+        <div><h1>Property Management</h1><p>Add, edit, and manage property listings</p></div>
+        <button class="btn btn-primary" onclick="document.getElementById('addPropertyModal').classList.add('active')">+ Add Property</button>
+      </div>
+
+      <div class="panel">
+        <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap">
+          <input type="text" id="searchInput" placeholder="Search properties..." class="form-input" style="max-width:300px" oninput="renderTable()">
+          <select id="statusFilter" class="form-select" style="max-width:200px" onchange="renderTable()"><option value="">All Status</option><option>Available</option><option>Sold</option><option>Pending</option></select>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="table">
+            <thead><tr><th>Photo</th><th>Title</th><th>Location</th><th>Price</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="propertiesTable"><tr><td colspan="7" style="text-align:center;color:#94A3B8;padding:3rem">No properties yet. Click "+ Add Property" to create one.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Add Property Modal -->
+      <div id="addPropertyModal" class="modal">
+        <div class="modal-content" style="max-width:720px">
+          <button class="modal-close" onclick="document.getElementById('addPropertyModal').classList.remove('active')">&times;</button>
+          <h2 style="font-family:'Playfair Display',serif;margin-bottom:1.5rem;color:#0F172A">Add New Property</h2>
+          <form id="addPropertyForm">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Property Title</label><input type="text" id="propTitle" class="form-input" placeholder="e.g. Modern Villa in Batangas" required></div>
+              <div class="form-group"><label class="form-label">Price (₱)</label><input type="number" id="propPrice" class="form-input" placeholder="0" required></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Address</label><input type="text" id="propAddress" class="form-input" placeholder="Full address" required></div>
+              <div class="form-group"><label class="form-label">City</label><input type="text" id="propCity" class="form-input" placeholder="City / Municipality" required></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Category</label>
+                <select id="propCategory" class="form-select"><option value="Residential">Residential</option><option value="Commercial">Commercial</option><option value="Agricultural">Agricultural</option><option value="Lot Only">Lot Only</option></select>
+              </div>
+              <div class="form-group"><label class="form-label">Type</label><input type="text" id="propType" class="form-input" placeholder="House & Lot, Condo, etc."></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Bedrooms</label><input type="number" id="propBeds" class="form-input" value="0"></div>
+              <div class="form-group"><label class="form-label">Bathrooms</label><input type="number" id="propBaths" class="form-input" value="0"></div>
+              <div class="form-group"><label class="form-label">Area (sqm)</label><input type="number" id="propArea" class="form-input" value="0"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Description</label><textarea id="propDesc" class="form-textarea" placeholder="Describe the property features..."></textarea></div>
+            <div class="form-group"><label class="form-label">Image URL</label><input type="text" id="propImage" class="form-input" placeholder="https://... (paste image URL)"></div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Status</label>
+                <select id="propStatus" class="form-select"><option value="Available">Available</option><option value="Sold">Sold</option><option value="Pending">Pending</option></select>
+              </div>
+              <div class="form-group"><label class="form-label">Title Status</label><input type="text" id="propTitleStatus" class="form-input" placeholder="Clean Title, Tax Dec, etc."></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:0.5rem">Add Property</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Property storage using localStorage
+    function getProperties() {
+      return JSON.parse(localStorage.getItem('lelis_properties') || '[]');
+    }
+    function saveProperties(props) {
+      localStorage.setItem('lelis_properties', JSON.stringify(props));
+    }
+
+    // Default sample properties
+    function initDefaults() {
+      if (!localStorage.getItem('lelis_properties')) {
+        const defaults = [
+          { id:1, title:'Modern Villa with Pool', price:4500000, address:'Brgy. San Jose', city:'Batangas City', category:'Residential', type:'House & Lot', beds:4, baths:3, area:250, description:'Luxurious modern villa with infinity pool and garden.', image:'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80', status:'Available', titleStatus:'Clean Title', date:'2025-04-01' },
+          { id:2, title:'Prime Commercial Lot', price:8200000, address:'National Highway', city:'Lipa City', category:'Commercial', type:'Lot Only', beds:0, baths:0, area:500, description:'Prime commercial lot along national highway.', image:'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80', status:'Available', titleStatus:'Clean Title', date:'2025-03-15' },
+          { id:3, title:'Farmland with Fruit Trees', price:2100000, address:'Brgy. Mahabang Parang', city:'San Juan, Batangas', category:'Agricultural', type:'Farm Lot', beds:0, baths:0, area:10000, description:'Productive farmland with coconut and mango trees.', image:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80', status:'Available', titleStatus:'Tax Declaration', date:'2025-02-20' },
+          { id:4, title:'Elegant Townhouse', price:3800000, address:'Villa Heights Subd.', city:'Batangas City', category:'Residential', type:'Townhouse', beds:3, baths:2, area:120, description:'Brand new townhouse in exclusive subdivision.', image:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80', status:'Pending', titleStatus:'Clean Title', date:'2025-04-10' },
+          { id:5, title:'Beachfront Property', price:12500000, address:'Brgy. Talahiban', city:'Calatagan, Batangas', category:'Residential', type:'House & Lot', beds:5, baths:4, area:450, description:'Stunning beachfront property with private access.', image:'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80', status:'Available', titleStatus:'Clean Title', date:'2025-01-18' },
+          { id:6, title:'Office Space Downtown', price:6800000, address:'Rizal Avenue', city:'Batangas City', category:'Commercial', type:'Office', beds:0, baths:2, area:180, description:'Modern office space in the heart of the business district.', image:'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80', status:'Sold', titleStatus:'Clean Title', date:'2025-03-28' }
+        ];
+        saveProperties(defaults);
+      }
+    }
+
+    function renderTable() {
+      initDefaults();
+      const props = getProperties();
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const status = document.getElementById('statusFilter').value;
+      const filtered = props.filter(p => {
+        const matchSearch = !search || p.title.toLowerCase().includes(search) || p.city.toLowerCase().includes(search);
+        const matchStatus = !status || p.status === status;
+        return matchSearch && matchStatus;
+      });
+      const tbody = document.getElementById('propertiesTable');
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#94A3B8;padding:3rem">No properties found.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = filtered.map(p => `<tr>
+        <td><img src="${p.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200&q=60'}" alt="${p.title}" style="width:70px;height:50px;object-fit:cover;border-radius:6px"></td>
+        <td><strong style="color:#0F172A">${p.title}</strong></td>
+        <td style="color:#64748B">${p.city}</td>
+        <td style="font-weight:700;color:#1B7A4E">₱${parseInt(p.price).toLocaleString()}</td>
+        <td><span style="background:#F1F5F9;padding:3px 8px;border-radius:4px;font-size:0.78rem;color:#475569">${p.category}</span></td>
+        <td><span class="badge-status badge-${p.status === 'Available' ? 'available' : p.status === 'Sold' ? 'sold' : 'pending'}">${p.status}</span></td>
+        <td>
+          <button class="btn btn-small btn-ghost" onclick="deleteProperty(${p.id})" style="color:#DC2626">Delete</button>
+        </td>
+      </tr>`).join('');
+    }
+
+    function deleteProperty(id) {
+      if (!confirm('Delete this property?')) return;
+      const props = getProperties().filter(p => p.id !== id);
+      saveProperties(props);
+      renderTable();
+    }
+
+    document.getElementById('addPropertyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const props = getProperties();
+      const newId = props.length > 0 ? Math.max(...props.map(p => p.id)) + 1 : 1;
+      const newProp = {
+        id: newId,
+        title: document.getElementById('propTitle').value,
+        price: parseInt(document.getElementById('propPrice').value),
+        address: document.getElementById('propAddress').value,
+        city: document.getElementById('propCity').value,
+        category: document.getElementById('propCategory').value,
+        type: document.getElementById('propType').value,
+        beds: parseInt(document.getElementById('propBeds').value) || 0,
+        baths: parseInt(document.getElementById('propBaths').value) || 0,
+        area: parseInt(document.getElementById('propArea').value) || 0,
+        description: document.getElementById('propDesc').value,
+        image: document.getElementById('propImage').value || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
+        status: document.getElementById('propStatus').value,
+        titleStatus: document.getElementById('propTitleStatus').value,
+        date: new Date().toISOString().split('T')[0]
+      };
+      props.push(newProp);
+      saveProperties(props);
+      document.getElementById('addPropertyModal').classList.remove('active');
+      this.reset();
+      renderTable();
+      alert('Property added successfully! It will now appear on the Properties page.');
+    });
+
+    document.addEventListener('DOMContentLoaded', renderTable);
+  </script>
+</body>
+</html>

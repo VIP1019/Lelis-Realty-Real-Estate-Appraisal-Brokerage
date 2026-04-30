@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Lelis Realty Services</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { min-height:100vh; display:flex; }
+    .login-left { flex:1; display:flex; align-items:center; justify-content:center; padding:3rem; background:var(--white); }
+    .login-right { flex:1; position:relative; display:flex; align-items:center; justify-content:center; }
+    .login-right img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .login-right-overlay { position:absolute; inset:0; background:linear-gradient(135deg,rgba(27,122,78,0.9),rgba(26,82,118,0.85)); z-index:1; display:flex; align-items:center; justify-content:center; }
+    .login-right-content { position:relative; z-index:2; color:white; text-align:center; padding:3rem; max-width:400px; }
+    .login-container { width:100%; max-width:400px; }
+    .login-header { margin-bottom:2.5rem; }
+    .login-header h1 { font-family:var(--font-heading); font-size:1.6rem; color:var(--primary); margin-bottom:0.25rem; }
+    .login-header p { color:var(--light-text); font-size:0.9rem; }
+    @media(max-width:768px) { .login-right{display:none} body{background:var(--white)} }
+  </style>
+</head>
+<body>
+  <div class="login-left">
+    <div class="login-container">
+      <div class="login-header">
+        <p style="font-family:var(--font-heading);font-size:1.3rem;color:var(--primary);font-weight:700;margin-bottom:0.25rem">Lelis Realty</p>
+        <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--light-text);font-weight:500;margin-bottom:2rem">Brokerage Management System</p>
+        <h1>Welcome Back</h1>
+        <p>Sign in to access the admin portal</p>
+      </div>
+      <form id="loginForm">
+        <div class="form-group"><label class="form-label">Username or Email</label><input type="text" id="username" class="form-input" required autofocus></div>
+        <div class="form-group"><label class="form-label">Password</label><input type="password" id="password" class="form-input" required></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem">
+          <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.88rem;color:var(--medium-text)"><input type="checkbox"> Remember me</label>
+          <a href="#" style="font-size:0.88rem;color:var(--primary);text-decoration:none">Forgot Password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Sign In</button>
+      </form>
+      <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);text-align:center">
+        <a href="../index.html" style="color:var(--light-text);text-decoration:none;font-size:0.85rem">&larr; Back to Website</a>
+      </div>
+    </div>
+  </div>
+  <div class="login-right">
+    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80" alt="Property">
+    <div class="login-right-overlay">
+      <div class="login-right-content">
+        <h2 style="font-family:var(--font-heading);font-size:2rem;margin-bottom:1rem">Brokerage Management System</h2>
+        <p style="opacity:0.85;line-height:1.7">Manage properties, track sellers and buyers, schedule appointments, and generate reports — all in one secure platform.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      try {
+        const res = await fetch('../api/auth.php?action=login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username,password}) });
+        const data = await res.json();
+        if (res.ok) { alert('Login successful!'); window.location.href='dashboard.html'; }
+        else { alert(data.error || 'Login failed'); }
+      } catch (e) { alert('Login error. Please try again.'); }
+    });
+  </script>
+</body>
+</html>
