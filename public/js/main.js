@@ -2,9 +2,9 @@
 const API_URL = 'api';
 
 const SAMPLE_PROPERTIES = [
-  { id:1, title:"Modern Luxury Villa", address:"Brgy. San Isidro", city:"Batangas City", price:4500000, bedrooms:5, bathrooms:4, square_feet:4200, status:"available", property_type:"Residential", images:"https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80" },
-  { id:2, title:"Contemporary Penthouse", address:"Poblacion", city:"Lipa City", price:3200000, bedrooms:3, bathrooms:2, square_feet:2100, status:"available", property_type:"Residential", images:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" },
-  { id:3, title:"Premium Estate Home", address:"P. Gomez St.", city:"Tanauan City", price:5800000, bedrooms:6, bathrooms:5, square_feet:5500, status:"available", property_type:"Residential", images:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" }
+  { id:1, title:"Modern Luxury Villa", address:"Brgy. San Isidro", city:"Batangas City", price:4500000, bedrooms:5, bathrooms:4, square_feet:4200, status:"available", property_type:"Residential", images:"images/property-1.jpg" },
+  { id:2, title:"Contemporary Penthouse", address:"Poblacion", city:"Lipa City", price:3200000, bedrooms:3, bathrooms:2, square_feet:2100, status:"available", property_type:"Residential", images:"images/property-2.jpg" },
+  { id:3, title:"Premium Estate Home", address:"P. Gomez St.", city:"Tanauan City", price:5800000, bedrooms:6, bathrooms:5, square_feet:5500, status:"available", property_type:"Residential", images:"images/property-3.jpg" }
 ];
 
 // ===== UTILITIES =====
